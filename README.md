@@ -1,6 +1,7 @@
 # CloudComputing-Project
 Project made during the cloud Computing course at Insper
 
+Pedro Altobelli
 # Escopo do Projeto:
 
 Implementação de Arquitetura Cloud na AWS com Terraform
