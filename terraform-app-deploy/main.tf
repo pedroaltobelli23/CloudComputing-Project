@@ -2,48 +2,14 @@ provider "aws" {
   region = var.region
 }
 
-
-# Creating virtual private cloud
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-  
-  tags = {
-    Name = "main"
-  }
+resource "aws_security_group" "ec2_sc" {
+  name = "ec2_sc"
+  vpc_id = aws_vpc.main.id
 }
 
-# Creating two private subnets
-# The first one is for the EC2 Instances that will be available for a user of the application
-# The second one is private
-# Creating subnets is better to manage the ec2 instances and the Application Loab Balancer
-resource "aws_subnet" "private_subnet_1" {
+resource "aws_security_group" "alb_sc" {
+  name = "alb_sc"
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.0.0/19"
-  availability_zone = var.region
-}
-
-resource "aws_subnet" "private_subnet_2" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.16.0/19"
-  availability_zone = var.region
-}
-
-resource "aws_security_group" "ec2-sc" {
-  name = "ec2-sc"
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "ec2-sc"
-  }
-}
-
-resource "aws_security_group" "alb-sc" {
-  name = "alb-sc"
-  vpc_id = aws_vpc.main.id
-  
-  tags = {
-    Name = "ec2-sc"
-  } 
 }
 
 # Create rule for ec2 instances that allow traffic on port 8080
@@ -65,7 +31,6 @@ resource "aws_security_group_rule" "ingress_ec2_health_check" {
   security_group_id        = aws_security_group.ec2-sc.id
   source_security_group_id = aws_security_group.alb-sc.id
 }
-
 
 # Create rule for alb that allow traffic on port 80
 resource "aws_security_group_rule" "ingress_alb_http_traffic" {
@@ -108,3 +73,94 @@ resource "aws_security_group_rule" "egress_alb_health_check" {
 }
 
 #Creating launch_template with aplication as IAM
+resource "aws_launch_template" "app_temlate" {
+  name = "app_template"
+  image_id = "valor"
+  key_name = "pedroapp"
+  vpc_security_group_ids = [aws_security_group.ec2_sc.id]
+}
+
+resource "aws_lb_target_group" "target_group" {
+  name     = "target_group"
+  port     = 8080
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main.id
+
+  health_check {
+    enabled             = true
+    port                = 8081
+    interval            = 30
+    protocol            = "HTTP"
+    path                = "/healthcheck"
+    matcher             = "200"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+  }
+}
+
+resource "aws_autoscaling_group" "autoscaling_group" {
+  name     = "autoscaling_group"
+  min_size = 1
+  max_size = 3
+
+  health_check_type = "EC2"
+
+  vpc_zone_identifier = [
+    aws_subnet.private_subnet1.id,
+    aws_subnet.private_subnet2.id
+  ]
+
+  target_group_arns = [aws_lb_target_group.target_group.arn]
+
+  mixed_instances_policy {
+    launch_template {
+      launch_template_specification {
+        launch_template_id = aws_launch_template.app_temlate.id
+      }
+      override {
+        instance_type = "t3.micro"
+      }
+    }
+  }
+}
+
+resource "aws_autoscaling_policy" "autoscaling_policy" {
+  name                   = "autoscaling_policy"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.autoscaling_group.name
+
+  estimated_instance_warmup = 300
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 25.0
+  }
+}
+
+#Creating the load balancer
+resource "aws_lb" "alb" {
+  name               = "alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb_sc.id]
+
+  subnets = [
+    aws_subnet.private_subnet1.id,
+    aws_subnet.private_subnet2.id
+  ]
+}
+
+#Creating listener
+resource "aws_lb_listener" "alb_listener" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group.arn
+  }
+}
