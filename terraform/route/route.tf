@@ -40,3 +40,8 @@ resource "aws_route_table_association" "public_association_3" {
   subnet_id      = var.public_subnet3
   route_table_id = aws_route_table.public.id
 }
+
+resource "aws_route_table_association" "public_association_4" {
+  subnet_id      = var.public_subnet4
+  route_table_id = aws_route_table.public.id
+}

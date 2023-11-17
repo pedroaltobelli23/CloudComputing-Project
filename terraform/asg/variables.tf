@@ -1,5 +1,5 @@
-variable "private_subnets" {
-  description = "List of IDs from private subnets"
+variable "ec2_subnets" {
+  description = "List of IDs from public subnets that will be used by ec2s"
   type = list(string)
   default = [ "subnet-123456789","subnet-123456789" ]
 }

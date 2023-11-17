@@ -13,6 +13,11 @@ variable "public_subnet3" {
   default = "subnet-123456789"
 }
 
+variable "public_subnet4" {
+  description = "ID of public subnet 4"
+  default = "subnet-123456789"
+}
+
 variable "private_rds_subnet1" {
   description = "ID of private rds subnet 1"
   default = "subnet-123456789"

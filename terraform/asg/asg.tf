@@ -112,7 +112,7 @@ resource "aws_autoscaling_group" "application" {
 
   health_check_type = "EC2"
 
-  vpc_zone_identifier = var.private_subnets
+  vpc_zone_identifier = var.ec2_subnets
 
   target_group_arns = [aws_lb_target_group.application.arn]
 

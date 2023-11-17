@@ -9,7 +9,7 @@ resource "aws_security_group_rule" "ingress_rds_sg_traffic" {
   to_port                  = 3306
   protocol                 = "tcp"
   security_group_id        = aws_security_group.rds_sg.id
-  source_security_group_id = var.e2_security_group_id
+  source_security_group_id = var.ec2_security_group_id
 }
 
 resource "aws_security_group_rule" "egress_alb_sg_traffic" {
@@ -18,7 +18,7 @@ resource "aws_security_group_rule" "egress_alb_sg_traffic" {
   to_port                  = 8080
   protocol                 = "tcp"
   security_group_id        = aws_security_group.rds_sg.id
-  source_security_group_id = var.e2_security_group_id
+  source_security_group_id = var.ec2_security_group_id
 }
 
 resource "aws_db_subnet_group" "subnet_group_db" {

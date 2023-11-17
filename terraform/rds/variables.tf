@@ -9,7 +9,7 @@ variable "vpc_id" {
   default     = "vpc-123456789"
 }
 
-variable "e2_security_group_id" {
+variable "ec2_security_group_id" {
   description = "id of security group created for the ec2"
   default     = "sg-123456789"
 }
