@@ -1,13 +1,3 @@
-variable "private_subnet1" {
-  description = "ID of private subnet 1"
-  default = "subnet-123456789"
-}
-
-variable "private_subnet2" {
-  description = "ID of private subnet 2"
-  default = "subnet-123456789"
-}
-
 variable "public_subnet1" {
   description = "ID of public subnet 1"
   default = "subnet-123456789"
@@ -15,6 +5,21 @@ variable "public_subnet1" {
 
 variable "public_subnet2" {
   description = "ID of public subnet 2"
+  default = "subnet-123456789"
+}
+
+variable "public_subnet3" {
+  description = "ID of public subnet 3"
+  default = "subnet-123456789"
+}
+
+variable "private_rds_subnet1" {
+  description = "ID of private rds subnet 1"
+  default = "subnet-123456789"
+}
+
+variable "private_rds_subnet2" {
+  description = "ID of private rds subnet 2"
   default = "subnet-123456789"
 }
 
