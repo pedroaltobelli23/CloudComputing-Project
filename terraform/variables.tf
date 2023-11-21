@@ -1,9 +1,19 @@
 variable "database_username" {
+  description = "username of the database"
   type = string
-  default = "user"
 }
 
 variable "database_password" {
+  description = "password of the username"
   type = string
-  default = "password"
+}
+
+variable "database_name" {
+  description = "name of the database"
+  type = string
+}
+
+variable "key_pair_name" {
+  description = "name of the instances keypair .pem file"
+  type = string
 }

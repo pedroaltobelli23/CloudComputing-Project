@@ -4,19 +4,19 @@ variable "db_subnets" {
   default     = ["subnet-123456789", "subnet-123456789"]
 }
 
-variable "vpc_id" {
-  description = "ID of the vpc main"
-  default     = "vpc-123456789"
-}
-
-variable "ec2_security_group_id" {
-  description = "id of security group created for the ec2"
+variable "rds_security_group_id" {
+  description = "id of security group created for the rds"
   default     = "sg-123456789"
 }
 
 variable "engine" {
   description = "engine used in the database"
   default     = "mysql"
+}
+
+variable "engineversion" {
+  description = "engine used in the database"
+  default     = "5.7"
 }
 
 variable "username" {

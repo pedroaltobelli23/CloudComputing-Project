@@ -18,3 +18,12 @@ variable "key_name" {
   description = "Name of Key Pair"
   default = "name"
 }
+
+variable "ec2_security_group_id" {
+  description = "id of security group created for the ec2"
+  default = "sg-123456789"
+}
+
+variable "user_data" {
+  description = "the user data"
+}

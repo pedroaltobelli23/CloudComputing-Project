@@ -48,15 +48,3 @@ resource "aws_subnet" "private_rds_subnet2" {
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 }
-
-
-# Inicializando nat que sera usada pela subnet privada
-resource "aws_eip" "private_nat" {
-}
-
-resource "aws_nat_gateway" "private_nat" {
-  allocation_id = aws_eip.private_nat.id
-  subnet_id     = aws_subnet.public_subnet1.id
-
-  depends_on = [aws_internet_gateway.igw]
-}

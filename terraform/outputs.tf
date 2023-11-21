@@ -7,3 +7,8 @@ output "vpc_id" {
   description = "vpc id"
   value = module.vpc.vpc_id
 }
+
+output "database_endpoint" {
+  description = "database endpoint"
+  value = module.rds.database_endpoint
+}

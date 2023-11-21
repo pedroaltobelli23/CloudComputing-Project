@@ -37,8 +37,3 @@ variable "internet_gateway_id" {
   description = "Id of the internet gateway"
   default = "gtw-123456789"
 }
-
-variable "nat_gateway_id" {
-  description = "Id of the nat gateway"
-  default = "nat-123456789"
-}
