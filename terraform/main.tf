@@ -45,11 +45,11 @@ module "sg" {
 module "asg" {
   source = "./asg"
 
-  ec2_subnets  = [module.vpc.public_subnet2, module.vpc.public_subnet3]
-  vpc_id       = module.vpc.vpc_id
-  AMI_image_id = "ami-0884034875ab3fffd"
-  key_name     = var.key_pair_name
-  user_data = base64encode(templatefile("scripts/install.sh", {var1 = module.rds.database_endpoint,var2=var.database_name,var3=var.database_password,var4=var.database_username,var5=module.alb.alb_dns}))
+  ec2_subnets           = [module.vpc.public_subnet2, module.vpc.public_subnet3]
+  vpc_id                = module.vpc.vpc_id
+  AMI_image_id          = "ami-0884034875ab3fffd"
+  key_name              = var.key_pair_name
+  user_data             = base64encode(templatefile("scripts/install.sh", { var1 = module.rds.database_endpoint, var2 = var.database_name, var3 = var.database_password, var4 = var.database_username, var5 = module.alb.alb_dns }))
   ec2_security_group_id = module.sg.ec2_security_group_id
 }
 
@@ -72,4 +72,9 @@ module "rds" {
   username          = var.database_username
   password          = var.database_password
   allocated_storage = 10
+}
+
+module "s3" {
+  source = "./s3"
+  bucket_name = "bucket-${timestamp()}"
 }

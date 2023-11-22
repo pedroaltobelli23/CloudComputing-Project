@@ -4,7 +4,7 @@ resource "aws_launch_template" "application" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.ec2_security_group_id]
 
-  user_data =  var.user_data
+  user_data = var.user_data
 }
 
 resource "aws_lb_target_group" "application" {
