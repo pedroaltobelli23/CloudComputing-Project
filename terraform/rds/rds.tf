@@ -12,7 +12,7 @@ resource "aws_db_instance" "rdb" {
   identifier        = "mydb"
   username          = var.username
   password          = var.password
-  multi_az          = false
+  multi_az          = true
 
   vpc_security_group_ids = [var.rds_security_group_id]
   db_subnet_group_name   = aws_db_subnet_group.subnet_group_db.name

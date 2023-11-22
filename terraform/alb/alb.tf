@@ -7,7 +7,7 @@ resource "aws_lb" "application" {
   subnets = var.alb_subnets
 }
 
-resource "aws_lb_listener" "application" {
+resource "aws_lb_listener" "application_http" {
   load_balancer_arn = aws_lb.application.arn
   port              = "80"
   protocol          = "HTTP"
@@ -17,3 +17,14 @@ resource "aws_lb_listener" "application" {
     target_group_arn = var.target_group_arn
   }
 }
+
+# resource "aws_lb_listener" "application_https" {
+#   load_balancer_arn = aws_lb.application.arn
+#   port              = "443"
+#   protocol          = "HTTPS"
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = var.target_group_arn
+#   }
+# }

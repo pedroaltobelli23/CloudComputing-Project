@@ -56,7 +56,7 @@ module "asg" {
 module "alb" {
   source = "./alb"
 
-  target_group_arn      = module.asg.target_group_arn
+  target_group_arn      = module.asg.target_group_http_arn
   alb_security_group_id = module.sg.alb_security_group_id
   alb_subnets           = [module.vpc.public_subnet2, module.vpc.public_subnet3]
 }
@@ -74,7 +74,12 @@ module "rds" {
   allocated_storage = 10
 }
 
+resource "random_pet" "example" {
+  length    = 8
+  separator = ""
+}
+
 module "s3" {
   source = "./s3"
-  bucket_name = "bucket-${timestamp()}"
+  bucket_name = "${var.bucket_name}-${replace(base64encode(sha256(random_pet.example.id)), "/[^0-9]/", "")}"
 }

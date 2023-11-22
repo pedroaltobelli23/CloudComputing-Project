@@ -17,3 +17,8 @@ variable "key_pair_name" {
   description = "name of the instances keypair .pem file"
   type = string
 }
+
+variable "bucket_name" {
+  description = "name of the s3 bucket"
+  type = string
+}

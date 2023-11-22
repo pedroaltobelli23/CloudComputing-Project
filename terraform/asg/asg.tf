@@ -7,9 +7,9 @@ resource "aws_launch_template" "application" {
   user_data = var.user_data
 }
 
-resource "aws_lb_target_group" "application" {
+resource "aws_lb_target_group" "application_http" {
   name     = "application"
-  port     = 8080
+  port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 
@@ -34,7 +34,7 @@ resource "aws_autoscaling_group" "application" {
 
   vpc_zone_identifier = var.ec2_subnets
 
-  target_group_arns = [aws_lb_target_group.application.arn]
+  target_group_arns = [aws_lb_target_group.application_http.arn]
 
   mixed_instances_policy {
     launch_template {
@@ -48,7 +48,7 @@ resource "aws_autoscaling_group" "application" {
   }
 }
 
-resource "aws_autoscaling_policy" "application" {
+resource "aws_autoscaling_policy" "average" {
   name                   = "application"
   policy_type            = "TargetTrackingScaling"
   autoscaling_group_name = aws_autoscaling_group.application.name
@@ -60,7 +60,23 @@ resource "aws_autoscaling_policy" "application" {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
 
-    target_value = 25.0
+    target_value = 70.0
   }
 }
+
+# resource "aws_autoscaling_policy" "average" {
+#   name                   = "application"
+#   policy_type            = "TargetTrackingScaling"
+#   autoscaling_group_name = aws_autoscaling_group.application.name
+
+#   estimated_instance_warmup = 300
+
+#   target_tracking_configuration {
+#     predefined_metric_specification {
+#       predefined_metric_type = "ASGAverageNetworkIn"
+#     }
+
+#     target_value = 100.0
+#   }
+# }
 
