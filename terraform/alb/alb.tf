@@ -17,14 +17,3 @@ resource "aws_lb_listener" "application_http" {
     target_group_arn = var.target_group_arn
   }
 }
-
-# resource "aws_lb_listener" "application_https" {
-#   load_balancer_arn = aws_lb.application.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
-
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = var.target_group_arn
-#   }
-# }

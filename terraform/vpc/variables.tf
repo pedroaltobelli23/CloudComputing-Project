@@ -23,16 +23,6 @@ variable "cidr_block_c2" {
   default = "10.0.64.0/19"
 }
 
-variable "cidr_block_c3" {
-  type    = string
-  default = "10.0.96.0/19"
-}
-
-variable "cidr_block_c4" {
-  type    = string
-  default = "10.0.96.0/19"
-}
-
 variable "cidr_block_r1" {
   type    = string
   default = "10.0.64.0/19"

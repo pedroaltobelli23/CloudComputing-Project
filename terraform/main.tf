@@ -11,9 +11,7 @@ module "vpc" {
   cidr_block = "10.0.0.0/16"
 
   cidr_block_c1 = "10.0.0.0/24"
-  cidr_block_c2 = "10.0.2.0/24"
-  cidr_block_c3 = "10.0.4.0/24"
-  cidr_block_c4 = "10.0.8.0/24"
+  cidr_block_c2 = "10.0.8.0/24"
   cidr_block_r1 = "10.0.16.0/24"
   cidr_block_r2 = "10.0.32.0/24"
 
@@ -26,8 +24,6 @@ module "route" {
 
   public_subnet1 = module.vpc.public_subnet1
   public_subnet2 = module.vpc.public_subnet2
-  public_subnet3 = module.vpc.public_subnet3
-  public_subnet4 = module.vpc.public_subnet4
 
   private_rds_subnet1 = module.vpc.private_rds_subnet1
   private_rds_subnet2 = module.vpc.private_rds_subnet2
@@ -45,7 +41,7 @@ module "sg" {
 module "asg" {
   source = "./asg"
 
-  ec2_subnets           = [module.vpc.public_subnet2, module.vpc.public_subnet3]
+  ec2_subnets           = [module.vpc.public_subnet1, module.vpc.public_subnet2]
   vpc_id                = module.vpc.vpc_id
   AMI_image_id          = "ami-0884034875ab3fffd"
   key_name              = var.key_pair_name
@@ -58,7 +54,7 @@ module "alb" {
 
   target_group_arn      = module.asg.target_group_http_arn
   alb_security_group_id = module.sg.alb_security_group_id
-  alb_subnets           = [module.vpc.public_subnet2, module.vpc.public_subnet3]
+  alb_subnets           = [module.vpc.public_subnet1, module.vpc.public_subnet2]
 }
 
 module "rds" {

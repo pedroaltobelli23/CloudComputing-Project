@@ -3,12 +3,12 @@ resource "aws_db_subnet_group" "subnet_group_db" {
   subnet_ids = var.db_subnets
 }
 
-resource "aws_db_instance" "rdb" {
+resource "aws_db_instance" "rds" {
   allocated_storage = var.allocated_storage
   storage_type      = "gp2"
   engine            = var.engine
   engine_version    = var.engineversion
-  instance_class    = "db.t2.micro"
+  instance_class    = "db.t3.micro"
   identifier        = "mydb"
   username          = var.username
   password          = var.password

@@ -1,4 +1,4 @@
 output "database_endpoint" {
   description = "Endpoint of the rds"
-  value       = aws_db_instance.rdb.address
+  value       = aws_db_instance.rds.address
 }

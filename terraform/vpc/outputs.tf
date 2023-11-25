@@ -18,16 +18,6 @@ output "public_subnet2" {
   value       = aws_subnet.public_subnet2.id
 }
 
-output "public_subnet3" {
-  description = "Id of public subnet 3"
-  value       = aws_subnet.public_subnet3.id
-}
-
-output "public_subnet4" {
-  description = "Id of public subnet 4"
-  value       = aws_subnet.public_subnet4.id
-}
-
 output "vpc_id" {
   description = "Id of the vpc"
   value       = aws_vpc.main.id

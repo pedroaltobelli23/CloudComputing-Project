@@ -9,13 +9,13 @@ resource "aws_launch_template" "application" {
 
 resource "aws_lb_target_group" "application_http" {
   name     = "application"
-  port     = 80
+  port     = 8000
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 
   health_check {
     enabled             = true
-    port                = 8081
+    port                = 80
     interval            = 30
     protocol            = "HTTP"
     path                = "/health"
@@ -60,23 +60,23 @@ resource "aws_autoscaling_policy" "average" {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
 
-    target_value = 70.0
+    target_value = 40.0
   }
 }
 
-# resource "aws_autoscaling_policy" "average" {
-#   name                   = "application"
-#   policy_type            = "TargetTrackingScaling"
-#   autoscaling_group_name = aws_autoscaling_group.application.name
+resource "aws_autoscaling_policy" "averagenetworkin" {
+  name                   = "application"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.application.name
 
-#   estimated_instance_warmup = 300
+  estimated_instance_warmup = 300
 
-#   target_tracking_configuration {
-#     predefined_metric_specification {
-#       predefined_metric_type = "ASGAverageNetworkIn"
-#     }
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageNetworkIn"
+    }
 
-#     target_value = 100.0
-#   }
-# }
+    target_value = 200.0
+  }
+}
 

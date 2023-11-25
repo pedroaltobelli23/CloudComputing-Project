@@ -26,13 +26,3 @@ resource "aws_route_table_association" "ec2_association_2" {
   subnet_id      = var.public_subnet2
   route_table_id = aws_route_table.route_table.id
 }
-
-resource "aws_route_table_association" "ec2_association_3" {
-  subnet_id      = var.public_subnet3
-  route_table_id = aws_route_table.route_table.id
-}
-
-resource "aws_route_table_association" "ec2_association_4" {
-  subnet_id      = var.public_subnet4
-  route_table_id = aws_route_table.route_table.id
-}
