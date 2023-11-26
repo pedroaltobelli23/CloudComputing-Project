@@ -1,3 +1,4 @@
+#
 resource "aws_security_group" "ec2_sg" {
   name   = "ec2-sg"
   vpc_id = var.vpc_id

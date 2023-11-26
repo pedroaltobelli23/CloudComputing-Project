@@ -3,7 +3,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.cidr_block
 }
 
-# Inicializando subnets publicas para clusters e ALB e privadas para RDS. public1 para alb e 2 e 3 para ec2s
+# Inicializando subnets publicas e privadas
 resource "aws_subnet" "public_subnet1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.cidr_block_c1

@@ -1,10 +1,10 @@
 output "private_rds_subnet1" {
-  description = "Id of public subnet 1"
+  description = "Id of private subnet 1"
   value       = aws_subnet.private_rds_subnet1.id
 }
 
 output "private_rds_subnet2" {
-  description = "Id of public subnet 2"
+  description = "Id of private subnet 2"
   value       = aws_subnet.private_rds_subnet2.id
 }
 

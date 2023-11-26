@@ -64,19 +64,20 @@ resource "aws_autoscaling_policy" "average" {
   }
 }
 
-resource "aws_autoscaling_policy" "averagenetworkin" {
-  name                   = "application"
-  policy_type            = "TargetTrackingScaling"
-  autoscaling_group_name = aws_autoscaling_group.application.name
+# Para testar o funcionamento do autoscaling group, descomenta a secao abaixo e comente aws_auto_scaling_policy average
+# resource "aws_autoscaling_policy" "averagenetworkin" {
+#   name                   = "application"
+#   policy_type            = "TargetTrackingScaling"
+#   autoscaling_group_name = aws_autoscaling_group.application.name
 
-  estimated_instance_warmup = 300
+#   estimated_instance_warmup = 300
 
-  target_tracking_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ASGAverageNetworkIn"
-    }
+#   target_tracking_configuration {
+#     predefined_metric_specification {
+#       predefined_metric_type = "ASGAverageNetworkIn"
+#     }
 
-    target_value = 200.0
-  }
-}
+#     target_value = 10000000.0
+#   }
+# }
 
