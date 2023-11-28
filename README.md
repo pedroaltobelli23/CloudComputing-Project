@@ -129,3 +129,29 @@ Saída esperada do s3 no console aws
 ![Aplicação rodando](imgs/application.png)
 
 ## Calculadora AWS
+
+Supondo que a pagina tenha 10.000 visitas por mes, e cada pagina tem em torno de 500 kB e ha uma media de 5 vizualizacoes de pagina por visita, por mes tera 23.84 Gb por mes. Como ha duas regioes da AWS que sao utilizadas, conclui-se no pior dos casos uma transferencia de quase a totalidade dos dados de uma para a outra. Para fim de simplicidade determinei que a transferencia de dados entre regiao seria a mesma da transferencia de dados com a internet.Essa transferencia foi estimada na VPC, no ALB e nas instancias. Por hora, a media de transferencia de dados 'e de 0.0333 Gb. Como o autoscaling group possui um maximo de 3 instancias, irei calcular o preco para 3 instancias.O Preco do S3 Bucket 'e muito baixo, porem nao foi colocado em consideracao.
+
+Considerando tambem que cada visita na aplicacao web faria o post duas vezes no banco rds e cada linha da tabela teria em media 100 bytes, podemos supor que o banco de dados teria 20000 linhas em MySQL, equivalente a 24 Mb. Portanto, uma db.m1.small de 1.7 Gb consegue dar conta dos dados
+
+Preco do VPC:
+
+![vpc price](imgs/consoleaws/vpc_price.png)
+
+Preco do ALB:
+
+![alb price](imgs/consoleaws/alb_price.png)
+
+Preco das instancias:
+
+![EC2 price](imgs/consoleaws/EC2_price.png)
+
+Preco do RDS:
+
+![RDS price](imgs/consoleaws/RDS_price.png)
+
+Preco total:
+
+![total price](imgs/total_price.png)
+
+O relatorio da aws se encontra neste [link](https://github.com/pedroaltobelli23/CloudComputing-Project/tree/main/imgs/MyEstimateAWSPricingCalculator.pdf).
